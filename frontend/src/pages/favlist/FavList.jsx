@@ -8,14 +8,26 @@ import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
-import useFavMovieCounter from '../../context/favMovieCounter/useFavMovieCounter';
+import { useDispatch, useSelector } from 'react-redux';
+import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
 
 const FavList = () => {
-    const { getFavouriteMovies, favMovieData, handleRemove } = useFavMovieCounter();
+    const dispatch = useDispatch();
+    const [favMovieData, setFavMovieData] = useState([]);
+    const favMovies = useSelector((store) => store.FavMoviesOperations.favMovies);
 
     useEffect(() => {
-        getFavouriteMovies();
-    }, []);
+        const data = JSON.parse(localStorage.getItem("favouriteMovies"));
+
+        if (data) {
+            setFavMovieData(data);
+        }
+
+    }, [favMovies]);
+
+    const handleRemove = (movie) => {
+        dispatch(FavMovieCounterAction.removeFromFav(movie));
+    };
 
 
     return (

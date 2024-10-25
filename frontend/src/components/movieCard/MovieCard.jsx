@@ -7,10 +7,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CardMedia from '@mui/material/CardMedia';
-import useFavMovieCounter from '../../context/favMovieCounter/useFavMovieCounter';
 
 const MovieCard = (props) => {
-    const { isFav } = useFavMovieCounter();
 
     return (
         <>
@@ -35,7 +33,7 @@ const MovieCard = (props) => {
                     <IconButton aria-label="add to favorites" sx={{ padding: 0 }}
                         onClick={() => props.addToFav()}>
                         <FavoriteIcon sx={{
-                            color: isFav ? 'pink' : 'grey',
+                            color: props.isFav ? 'pink' : 'grey',
                             transition: 'color 0.3s ease-in-out', // optional smooth transition
                         }} />
                     </IconButton>

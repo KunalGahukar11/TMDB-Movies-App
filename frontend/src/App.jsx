@@ -1,15 +1,16 @@
 import Navbar from "./components/navbar/Navbar"
-import FavMovieCounterProvider from "./context/favMovieCounter/FavMovieCounterProvider"
+import { store } from "./redux/store";
 import Routing from "./routes/Routing"
+import { Provider } from 'react-redux';
 
 function App() {
 
   return (
     <>
-      <FavMovieCounterProvider>
+      <Provider store={store}>
         <Navbar></Navbar>
         <Routing></Routing>
-      </FavMovieCounterProvider>
+      </Provider>
     </>
   )
 }

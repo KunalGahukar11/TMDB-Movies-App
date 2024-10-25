@@ -1,10 +1,17 @@
 import { NavLink } from "react-router-dom";
 import Badge from '@mui/material/Badge';
 import useFavMovieCounter from "../../context/favMovieCounter/useFavMovieCounter";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { FavMovieCounterAction } from "../../redux/slices/FavMoviesOpsSlice";
 
 const Navbar = () => {
-    const { favMoviesCount } = useFavMovieCounter();
-    // console.log(favMoviesCount);
+    const count = useSelector((store) => store.FavMoviesOperations.count);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(FavMovieCounterAction.restoreFromLocalStorage());
+    }, []);
 
     const links = [
         {
@@ -43,7 +50,8 @@ const Navbar = () => {
                             links && links.map((item, idx) => {
                                 return (
                                     item.menu === 'FavList' ?
-                                        <Badge key={idx} badgeContent={favMoviesCount === 0 ? null : favMoviesCount} variant={favMoviesCount === 0 ? "dot" : "standard"} color="primary"
+                                        <Badge key={idx} badgeContent={count === 0 ? null : count}
+                                            variant={count === 0 ? "dot" : "standard"} color="primary"
                                             sx={{
                                                 '& .MuiBadge-badge': {
                                                     top: '9px',

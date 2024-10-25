@@ -6,11 +6,33 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
-import useFavMovieCounter from '../../context/favMovieCounter/useFavMovieCounter';
+import { useDispatch, useSelector } from 'react-redux';
+import { PaginationAction } from '../../redux/slices/PaginationSlice';
+import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
+import { useEffect } from 'react';
 
 const MoviesList = ({ searchResult }) => {
-    const { result, loader, page, totalPages, handlePagination } = useMovies();
-    const { handleAddToFav, alreadyThere, addedThere, handleClose } = useFavMovieCounter();
+    const { result, loader, totalPages } = useMovies();
+    const page = useSelector((store) => store.Pagination.value);
+    const dispatch = useDispatch();
+
+    const { alreadyThere, addedThere } = useSelector((store) => store.FavMoviesOperations);
+
+    useEffect(() => {
+        dispatch(FavMovieCounterAction.restoreFromLocalStorage());
+    }, []);
+
+    const handlePagination = (newPage) => {
+        dispatch(PaginationAction.setPage(newPage));
+    };
+
+    const handleAddToFav = (movie) => {
+        dispatch(FavMovieCounterAction.addToFav(movie));
+    };
+
+    const handleClose = () => {
+        dispatch(FavMovieCounterAction.handleCloseSnackBar());
+    };
 
     function SlideTransition(props) {
         return <Slide {...props} direction="left" />;
@@ -80,9 +102,8 @@ const MoviesList = ({ searchResult }) => {
                     </Grid2>
                 </Box>
                 <Pagination className='p-4 m-4'
+                    color="primary"
                     count={totalPages}
-                    variant='outlined'
-                    color='primary'
                     page={page}
                     onChange={(_, value) => { handlePagination(value), scrollTo(0, 0) }}
                 />

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { movieInstance } from "../api/apiAuthentication";
+import { useSelector } from "react-redux";
 
 const useMovies = () => {
   const [result, setResult] = useState([]);
   const [err, setErr] = useState("");
   const [loader, setLoader] = useState(false);
-  const [page, setpage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const page = useSelector((store) => store.Pagination.value);
 
   const getMovies = async () => {
     try {
@@ -21,10 +23,6 @@ const useMovies = () => {
     }
   };
 
-  const handlePagination = (newPage) => {
-    setpage(newPage);
-  };
-
   useEffect(() => {
     getMovies();
   }, [page]);
@@ -33,9 +31,7 @@ const useMovies = () => {
     result,
     err,
     loader,
-    page,
     totalPages,
-    handlePagination,
   };
 };
 
