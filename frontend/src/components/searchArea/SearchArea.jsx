@@ -5,19 +5,15 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
-import useSearchMovies from '../../hooks/useSearchMovies';
+import { useDispatch } from 'react-redux';
+import { SearchAreaAction } from '../../redux/slices/SearchAreaSlice';
 
-const SearchArea = ({ searchData }) => {
-    const { searchResult, setMovieName } = useSearchMovies();
+const SearchArea = () => {
+    const dispatch = useDispatch();
 
     const getMovieName = (event) => {
-        let result = event.target.value;
-        setMovieName(result);
+        dispatch(SearchAreaAction.searchMovie(event.target.value));
     };
-
-    useEffect(() => {
-        searchData(searchResult);
-    }, [searchResult, searchData]);
 
     return (
         <>

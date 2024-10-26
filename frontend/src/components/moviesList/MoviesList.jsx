@@ -10,9 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PaginationAction } from '../../redux/slices/PaginationSlice';
 import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
 import { useEffect } from 'react';
+import useSearchMovies from '../../hooks/useSearchMovies';
 
-const MoviesList = ({ searchResult }) => {
+const MoviesList = () => {
     const { result, loader, totalPages } = useMovies();
+    const { searchResult } = useSearchMovies();
     const page = useSelector((store) => store.Pagination.value);
     const dispatch = useDispatch();
 
@@ -101,7 +103,7 @@ const MoviesList = ({ searchResult }) => {
                         }
                     </Grid2>
                 </Box>
-                <Pagination className='p-4 m-4'
+                <Pagination className='mt-10' shape='rounded'
                     color="primary"
                     count={totalPages}
                     page={page}

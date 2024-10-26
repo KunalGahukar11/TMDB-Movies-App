@@ -1,3 +1,4 @@
+import Footer from "./components/Footer/Footer";
 import Navbar from "./components/navbar/Navbar"
 import { store } from "./redux/store";
 import Routing from "./routes/Routing"
@@ -10,6 +11,7 @@ function App() {
       <Provider store={store}>
         <Navbar></Navbar>
         <Routing></Routing>
+        <Footer></Footer>
       </Provider>
     </>
   )
