@@ -10,11 +10,13 @@ import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
+import { useNavigate } from 'react-router-dom';
 
 const FavList = () => {
     const dispatch = useDispatch();
     const [favMovieData, setFavMovieData] = useState([]);
     const favMovies = useSelector((store) => store.FavMoviesOperations.favMovies);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem("favouriteMovies"));
@@ -29,6 +31,10 @@ const FavList = () => {
         dispatch(FavMovieCounterAction.removeFromFav(movie));
     };
 
+    const toMoviesDetail = (movie) => {
+        localStorage.setItem("moviesDetail", JSON.stringify(movie));
+        navigate(`/${movie.id}`);
+    };
 
     return (
         <>
@@ -40,8 +46,8 @@ const FavList = () => {
                 <Box sx={{ flexGrow: 1, margin: '0 auto', Width: '100%' }}>
                     <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {
-                            favMovieData && !!favMovieData.length && favMovieData.map((movie, index) => (
-                                <Grid2 key={index} xs={12} sm={6} md={2.4}>
+                            favMovieData && !!favMovieData.length && favMovieData.map((movie) => (
+                                <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
                                     <Card sx={{ maxWidth: 180, minHeight: 300, cursor: 'pointer' }}>
                                         <CardContent sx={{ height: 'auto', padding: '5px', background: '#eee' }}>
                                             <Typography gutterBottom component="div" sx={{ fontWeight: 600, textAlign: 'center', padding: '4px', margin: 0, fontFamily: 'poppins' }}>
@@ -52,7 +58,7 @@ const FavList = () => {
                                                 }
                                             </Typography>
                                         </CardContent>
-                                        <CardMedia
+                                        <CardMedia onClick={() => toMoviesDetail(movie)}
                                             component="img"
                                             height="140"
                                             image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}

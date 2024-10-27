@@ -22,7 +22,7 @@ const MovieCard = (props) => {
                         }
                     </Typography>
                 </CardContent>
-                <CardMedia
+                <CardMedia onClick={() => props.handleNavigate()}
                     component="img"
                     height="140"
                     image={`https://image.tmdb.org/t/p/w500/${props.poster_path}`}

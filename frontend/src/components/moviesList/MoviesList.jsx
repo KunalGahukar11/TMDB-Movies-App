@@ -11,12 +11,14 @@ import { PaginationAction } from '../../redux/slices/PaginationSlice';
 import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
 import { useEffect } from 'react';
 import useSearchMovies from '../../hooks/useSearchMovies';
+import { useNavigate } from 'react-router-dom';
 
 const MoviesList = () => {
     const { result, loader, totalPages } = useMovies();
     const { searchResult } = useSearchMovies();
     const page = useSelector((store) => store.Pagination.value);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { alreadyThere, addedThere } = useSelector((store) => store.FavMoviesOperations);
 
@@ -34,6 +36,11 @@ const MoviesList = () => {
 
     const handleClose = () => {
         dispatch(FavMovieCounterAction.handleCloseSnackBar());
+    };
+
+    const toMoviesDetail = (movie) => {
+        localStorage.setItem("moviesDetail", JSON.stringify(movie));
+        navigate(`/${movie.id}`);
     };
 
     function SlideTransition(props) {
@@ -82,20 +89,22 @@ const MoviesList = () => {
                     >
                         {
                             searchResult.length > 0 ?
-                                searchResult.map((movie, index) => (
-                                    <Grid2 key={index} xs={12} sm={6} md={2.4}>
+                                searchResult.map((movie) => (
+                                    <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
                                         <MovieCard title={movie.title}
                                             poster_path={movie.poster_path}
                                             addToFav={() => handleAddToFav(movie)}
+                                            handleNavigate={() => toMoviesDetail(movie)}
                                         ></MovieCard>
                                     </Grid2>
                                 )) :
                                 result.length > 0 ?
-                                    result.map((movie, index) => (
-                                        <Grid2 key={index} xs={12} sm={6} md={2.4}>
+                                    result.map((movie) => (
+                                        <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
                                             <MovieCard title={movie.title}
                                                 poster_path={movie.poster_path}
                                                 addToFav={() => handleAddToFav(movie)}
+                                                handleNavigate={() => toMoviesDetail(movie)}
                                             ></MovieCard>
                                         </Grid2>
                                     )) :
