@@ -11,9 +11,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
 import { useNavigate } from 'react-router-dom';
+import useMovies from '../../hooks/useMovies'
 
 const FavList = () => {
     const dispatch = useDispatch();
+    const { result } = useMovies();
     const [favMovieData, setFavMovieData] = useState([]);
     const favMovies = useSelector((store) => store.FavMoviesOperations.favMovies);
     const navigate = useNavigate();
@@ -28,7 +30,10 @@ const FavList = () => {
     }, [favMovies]);
 
     const handleRemove = (movie) => {
+        let idx = result.findIndex((item) => item.id === movie.id);
+        delete result[idx].isFav;
         dispatch(FavMovieCounterAction.removeFromFav(movie));
+        console.log(result);
     };
 
     const toMoviesDetail = (movie) => {

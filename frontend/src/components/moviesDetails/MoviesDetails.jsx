@@ -22,34 +22,43 @@ const MoviesDetails = () => {
                         {/* container */}
                         <div className="flex absolute justify-around items-center w-full h-full z-10">
                             {/* movie detail left */}
-                            <div className="w-1/4 flex flex-col items-center  gap-3">
-                                <img className="rounded-lg w-3/4  shadow_effect"
+                            <div className="w-1/4 flex flex-col items-center h-full justify-center gap-4">
+                                <img className="rounded-lg w-3/4 shadow_effect"
                                     src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`} alt={movieData.title} />
 
-                                <div className=" w-full flex items-center justify-center gap-2">
-                                    <p className="italic">Rating:</p>
-                                    <Stack spacing={1}>
-                                        <Rating name="half-rating-read"
-                                            defaultValue={movieData.vote_average}
-                                            sx={{
-                                                '& .MuiRating-iconEmpty': {
-                                                    color: '#ddd',  // Color for empty stars
-                                                },
-                                            }}
-                                            precision={0.5}
-                                            readOnly />
-                                    </Stack>
+                                <div className="flex flex-col gap-2 items-center">
+                                    <p className="italic">{movieData.title}</p>
+                                    <p className="italic">Popularity : <span className="font-bold text-gray-300">{movieData.popularity}</span></p>
+                                    <p className="italic">Voting: <span className="font-bold text-gray-300">{movieData.vote_count}</span></p>
                                 </div>
-                                <p className="italic">Voting: <span className="font-bold text-gray-300">{movieData.vote_count}</span></p>
                             </div>
 
                             <Divider orientation="vertical" flexItem sx={{ bgcolor: 'gray', height: '90%', alignSelf: 'center' }} />
 
                             {/* movie detail right */}
-                            <div className="w-3/5 flex flex-col gap-5">
-                                <div className="border-l-4 border-gray-100 p-3">
-                                    <h1 className="text-3xl font-bold">{movieData.original_title} ({(movieData.release_date).split("-")[0]})</h1>
-                                    <p className="italic text-sm text-gray-300">{movieData.release_date} | {movieData.original_language} {movieData.adult && (<span>| A rated</span>)}</p>
+                            <div className="w-3/5 flex flex-col justify-center gap-5 h-full">
+                                <div className="border-l-4 border-gray-100 p-3 flex flex-col gap-1">
+                                    <h1 className="text-3xl font-bold">{movieData.original_title} ({(movieData.release_date).split("-")[0]})
+                                    </h1>
+                                    <p className="italic text-sm text-gray-300">{movieData.release_date} | {movieData.original_language}
+                                        {movieData.adult && (<span>| A rated</span>)}
+                                    </p>
+                                    <div className=" w-full flex items-center gap-2">
+                                        <p className="italic text-sm text-gray-300">Rating :</p>
+                                        <Stack spacing={1}>
+                                            <Rating name="half-rating-read customized-10"
+                                                defaultValue={movieData.vote_average}
+                                                max={10}
+                                                sx={{
+                                                    '& .MuiRating-iconEmpty': {
+                                                        color: '#ddd',  // Color for empty stars
+                                                    },
+                                                }}
+                                                precision={0.5}
+                                                readOnly />
+                                        </Stack>
+                                        <span className="italic text-sm font-bold text-gray-300">({movieData.vote_average.toFixed(1)})</span>
+                                    </div>
                                 </div>
 
                                 <div className="p-5">
@@ -77,5 +86,3 @@ const MoviesDetails = () => {
 };
 
 export default MoviesDetails;
-
-// src={`https://image.tmdb.org/t/p/w500/${movieData.backdrop_path}`}

@@ -33,7 +33,7 @@ const MovieCard = (props) => {
                     <IconButton aria-label="add to favorites" sx={{ padding: 0 }}
                         onClick={() => props.addToFav()}>
                         <FavoriteIcon sx={{
-                            color: props.isFav ? 'pink' : 'grey',
+                            color: props.isFav ? '#FF0000' : 'grey',
                             transition: 'color 0.3s ease-in-out', // optional smooth transition
                         }} />
                     </IconButton>

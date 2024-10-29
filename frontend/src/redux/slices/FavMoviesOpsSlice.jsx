@@ -22,6 +22,7 @@ const FavMovieCounterSlice = createSlice({
             }
 
             let updatedArr = [...state.favMovies, action.payload];
+
             state.favMovies = [...updatedArr];
             state.count = updatedArr.length;
 
@@ -47,10 +48,8 @@ const FavMovieCounterSlice = createSlice({
                 state.favMovies.splice(idx, 1);
                 state.count = state.favMovies.length;
                 localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
-                // setIsFav(false);
             }
 
-            // setFavMovieData([...state.favMovieData]);
             localStorage.setItem('favouriteMovies', JSON.stringify(state.favMovies));
         },
 

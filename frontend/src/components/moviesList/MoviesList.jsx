@@ -24,6 +24,7 @@ const MoviesList = () => {
 
     useEffect(() => {
         dispatch(FavMovieCounterAction.restoreFromLocalStorage());
+        console.log(result);
     }, []);
 
     const handlePagination = (newPage) => {
@@ -31,7 +32,10 @@ const MoviesList = () => {
     };
 
     const handleAddToFav = (movie) => {
+        let idx = result.findIndex((item) => item.id === movie.id);
+        result[idx] = { ...result[idx], isFav: true };
         dispatch(FavMovieCounterAction.addToFav(movie));
+        console.log(result);
     };
 
     const handleClose = () => {
@@ -95,6 +99,7 @@ const MoviesList = () => {
                                             poster_path={movie.poster_path}
                                             addToFav={() => handleAddToFav(movie)}
                                             handleNavigate={() => toMoviesDetail(movie)}
+                                            isFav={movie.isFav}
                                         ></MovieCard>
                                     </Grid2>
                                 )) :
@@ -105,6 +110,7 @@ const MoviesList = () => {
                                                 poster_path={movie.poster_path}
                                                 addToFav={() => handleAddToFav(movie)}
                                                 handleNavigate={() => toMoviesDetail(movie)}
+                                                isFav={movie.isFav}
                                             ></MovieCard>
                                         </Grid2>
                                     )) :
