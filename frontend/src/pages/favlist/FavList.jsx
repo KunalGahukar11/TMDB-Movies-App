@@ -30,8 +30,6 @@ const FavList = () => {
     }, [favMovies]);
 
     const handleRemove = (movie) => {
-        let idx = result.findIndex((item) => item.id === movie.id);
-        delete result[idx].isFav;
         dispatch(FavMovieCounterAction.removeFromFav(movie));
         console.log(result);
     };

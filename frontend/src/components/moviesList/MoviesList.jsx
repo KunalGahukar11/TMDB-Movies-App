@@ -2,7 +2,6 @@ import useMovies from '../../hooks/useMovies'
 import { Grid2, Pagination } from '@mui/material';
 import MovieCard from '../movieCard/MovieCard';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -14,7 +13,7 @@ import useSearchMovies from '../../hooks/useSearchMovies';
 import { useNavigate } from 'react-router-dom';
 
 const MoviesList = () => {
-    const { result, loader, totalPages } = useMovies();
+    const { result, totalPages } = useMovies();
     const { searchResult } = useSearchMovies();
     const page = useSelector((store) => store.Pagination.value);
     const dispatch = useDispatch();
@@ -32,8 +31,6 @@ const MoviesList = () => {
     };
 
     const handleAddToFav = (movie) => {
-        let idx = result.findIndex((item) => item.id === movie.id);
-        result[idx] = { ...result[idx], isFav: true };
         dispatch(FavMovieCounterAction.addToFav(movie));
         console.log(result);
     };
@@ -83,10 +80,6 @@ const MoviesList = () => {
                 }
                 <h1 className='text-3xl font-semibold border-l-4 p-3 my-6 self-start w-full'
                     style={{ borderLeftColor: '#3d52a0', background: '#ede8f5' }}>All Movies</h1>
-
-                {loader && (<Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                    <CircularProgress />
-                </Box>)}
 
                 <Box sx={{ flexGrow: 1, maxWidth: '1200px' }}>
                     <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}
