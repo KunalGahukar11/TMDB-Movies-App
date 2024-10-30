@@ -5,14 +5,43 @@ import Stack from '@mui/material/Stack';
 import { Divider } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useDispatch, useSelector } from "react-redux";
+import { FavMovieOperationsAction } from "../../redux/slices/FavMoviesOpsSlice";
+import { useSnackbar } from 'notistack';
 
 const MoviesDetails = () => {
     const [movieData, setMovieData] = useState(null);
+    const isFavMap = useSelector((store) => store.FavMoviesOperations.isFavMap);
+    const { enqueueSnackbar } = useSnackbar();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem("moviesDetail"));
         setMovieData(data);
     }, []);
+
+    const handleToggling = (movie) => {
+        dispatch(FavMovieOperationsAction.addRemoveToggle(movie));
+
+        if (isFavMap[movie.id]) {
+            enqueueSnackbar('Remove from Favlist',
+                {
+                    variant: 'default', anchorOrigin: {
+                        vertical: 'top',   // position from top
+                        horizontal: 'right' // position from right
+                    }
+                });
+        } else {
+            enqueueSnackbar('Added to Favlist',
+                {
+                    variant: 'success', anchorOrigin: {
+                        vertical: 'top',   // position from top
+                        horizontal: 'right' // position from right
+                    }
+                });
+        }
+    };
 
     return (
         <>
@@ -68,7 +97,13 @@ const MoviesDetails = () => {
 
                                 <div className="w-full flex pl-5 gap-5">
                                     <p className="cursor-pointer font-normal"><BookmarkIcon></BookmarkIcon> Add to Watchlist</p>
-                                    <p className="cursor-pointer font-normal"><FavoriteIcon></FavoriteIcon> Add to Favlist</p>
+                                    <p className="cursor-pointer font-normal"
+                                        onClick={() => handleToggling(movieData)}>
+                                        <FavoriteIcon sx={{
+                                            color: isFavMap[movieData.id] ? '#FF0000' : 'inherit',
+                                            transition: 'color 0.3s ease-in-out', // optional smooth transition
+                                        }}></FavoriteIcon> {isFavMap[movieData.id] ? "Added to Favlist" : "Add to Favlist"}
+                                    </p>
                                 </div>
                             </div>
                         </div>

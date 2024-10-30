@@ -1,16 +1,15 @@
 import { NavLink } from "react-router-dom";
 import Badge from '@mui/material/Badge';
-import useFavMovieCounter from "../../context/favMovieCounter/useFavMovieCounter";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { FavMovieCounterAction } from "../../redux/slices/FavMoviesOpsSlice";
+import { FavMovieOperationsAction } from "../../redux/slices/FavMoviesOpsSlice";
 
 const Navbar = () => {
     const count = useSelector((store) => store.FavMoviesOperations.count);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(FavMovieCounterAction.restoreFromLocalStorage());
+        dispatch(FavMovieOperationsAction.restoreFromLocalStorage());
     }, []);
 
     const links = [

@@ -2,15 +2,13 @@ import useMovies from '../../hooks/useMovies'
 import { Grid2, Pagination } from '@mui/material';
 import MovieCard from '../movieCard/MovieCard';
 import Box from '@mui/material/Box';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaginationAction } from '../../redux/slices/PaginationSlice';
-import { FavMovieCounterAction } from '../../redux/slices/FavMoviesOpsSlice';
+import { FavMovieOperationsAction } from '../../redux/slices/FavMoviesOpsSlice';
 import { useEffect } from 'react';
 import useSearchMovies from '../../hooks/useSearchMovies';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 const MoviesList = () => {
     const { result, totalPages } = useMovies();
@@ -18,11 +16,12 @@ const MoviesList = () => {
     const page = useSelector((store) => store.Pagination.value);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
 
-    const { alreadyThere, addedThere } = useSelector((store) => store.FavMoviesOperations);
+    const { isFavMap } = useSelector((store) => store.FavMoviesOperations);
 
     useEffect(() => {
-        dispatch(FavMovieCounterAction.restoreFromLocalStorage());
+        dispatch(FavMovieOperationsAction.restoreFromLocalStorage());
         console.log(result);
     }, []);
 
@@ -30,13 +29,25 @@ const MoviesList = () => {
         dispatch(PaginationAction.setPage(newPage));
     };
 
-    const handleAddToFav = (movie) => {
-        dispatch(FavMovieCounterAction.addToFav(movie));
-        console.log(result);
-    };
-
-    const handleClose = () => {
-        dispatch(FavMovieCounterAction.handleCloseSnackBar());
+    const handleTogglingFavBtn = (movie) => {
+        dispatch(FavMovieOperationsAction.addRemoveToggle(movie));
+        if (isFavMap[movie.id]) {
+            enqueueSnackbar('Remove from Favlist',
+                {
+                    variant: 'default', anchorOrigin: {
+                        vertical: 'top',   // position from top
+                        horizontal: 'right' // position from right
+                    }
+                });
+        } else {
+            enqueueSnackbar('Added to Favlist',
+                {
+                    variant: 'success', anchorOrigin: {
+                        vertical: 'top',   // position from top
+                        horizontal: 'right' // position from right
+                    }
+                });
+        }
     };
 
     const toMoviesDetail = (movie) => {
@@ -44,40 +55,9 @@ const MoviesList = () => {
         navigate(`/${movie.id}`);
     };
 
-    function SlideTransition(props) {
-        return <Slide {...props} direction="left" />;
-    }
-
     return (
         <>
             <section className='flex flex-col items-center justify-center my-4'>
-                {
-                    addedThere && <Snackbar open={addedThere}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        autoHideDuration={3000}
-                        onClose={handleClose}
-                        TransitionComponent={SlideTransition}
-                    >
-                        <Alert
-                            severity="success"
-                            variant="filled"
-                            sx={{ width: '100%' }}
-                        >
-
-                            Added in the Favlist!
-                        </Alert>
-                    </Snackbar>
-                }
-                {
-                    alreadyThere && <Snackbar
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        open={alreadyThere}
-                        autoHideDuration={3000}
-                        TransitionComponent={SlideTransition}
-                        onClose={handleClose}
-                        message="Already in Favlist"
-                    />
-                }
                 <h1 className='text-3xl font-semibold border-l-4 p-3 my-6 self-start w-full'
                     style={{ borderLeftColor: '#3d52a0', background: '#ede8f5' }}>All Movies</h1>
 
@@ -101,9 +81,9 @@ const MoviesList = () => {
                                         <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
                                             <MovieCard title={movie.title}
                                                 poster_path={movie.poster_path}
-                                                addToFav={() => handleAddToFav(movie)}
+                                                addToggle={() => handleTogglingFavBtn(movie)}
                                                 handleNavigate={() => toMoviesDetail(movie)}
-                                                isFav={movie.isFav}
+                                                isFav={isFavMap[movie.id]}
                                             ></MovieCard>
                                         </Grid2>
                                     )) :

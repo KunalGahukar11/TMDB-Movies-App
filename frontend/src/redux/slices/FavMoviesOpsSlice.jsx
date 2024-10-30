@@ -1,35 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const FavMovieCounterSlice = createSlice({
+const FavMovieOperationsSlice = createSlice({
     name: 'FavMoviesCounter',
     initialState: {
         favMovies: [],
-        addedThere: false,
-        alreadyThere: false,
         count: 0,
+        isFavMap: {},
     },
 
     reducers: {
 
-        addToFav: (state, action) => {
-            let duplicateEntry = state.favMovies.some((fav) => {
-                return fav.id === action.payload.id;
-            });
+        addRemoveToggle: (state, action) => {
+            if (state.isFavMap.hasOwnProperty(action.payload.id)) {
+                let idx = state.favMovies.findIndex((fav) => fav.id === action.payload.id);
 
-            if (duplicateEntry) {
-                state.alreadyThere = true;
-                return;
+                if (idx !== -1) {
+                    state.favMovies.splice(idx, 1);
+                    delete state.isFavMap[action.payload.id];
+
+                    state.count = state.favMovies.length;
+                    localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
+                }
+
+                localStorage.setItem('favouriteMovies', JSON.stringify(state.favMovies));
+            } else {
+                let duplicateEntry = state.favMovies.some((fav) => {
+                    return fav.id === action.payload.id;
+                });
+
+                if (duplicateEntry) {
+                    return;
+                }
+
+                let updatedArr = [...state.favMovies, action.payload];
+
+                state.favMovies = [...updatedArr];
+                state.count = updatedArr.length;
+                state.isFavMap = { ...state.isFavMap, [action.payload.id]: true };
+
+                localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
+
+                localStorage.setItem("favouriteMovies", JSON.stringify(updatedArr));
             }
-
-            let updatedArr = [...state.favMovies, action.payload];
-
-            state.favMovies = [...updatedArr];
-            state.count = updatedArr.length;
-
-            localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
-
-            state.addedThere = true;
-            localStorage.setItem("favouriteMovies", JSON.stringify(updatedArr));
         },
 
         restoreFromLocalStorage: (state) => {
@@ -46,19 +58,16 @@ const FavMovieCounterSlice = createSlice({
 
             if (idx !== -1) {
                 state.favMovies.splice(idx, 1);
+                delete state.isFavMap[action.payload.id];
+
                 state.count = state.favMovies.length;
                 localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
             }
 
             localStorage.setItem('favouriteMovies', JSON.stringify(state.favMovies));
         },
-
-        handleCloseSnackBar: (state) => {
-            if (state.addedThere) { state.addedThere = false };
-            if (state.alreadyThere) { state.alreadyThere = false };
-        },
     }
 });
 
-export default FavMovieCounterSlice.reducer;
-export const FavMovieCounterAction = FavMovieCounterSlice.actions;
+export default FavMovieOperationsSlice.reducer;
+export const FavMovieOperationsAction = FavMovieOperationsSlice.actions;

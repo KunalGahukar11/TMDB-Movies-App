@@ -15,7 +15,7 @@ const Routing = () => {
         <>
             <div style={{ width: '90%', margin: '0px auto' }}>
                 <Suspense fallback={
-                    <div className="w-full h-full flex justify-center items-center">
+                    <div className="w-11/12 h-screen flex justify-center items-center">
                         <CircularProgress></CircularProgress>
                     </div>
                 }>
