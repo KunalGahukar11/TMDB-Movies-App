@@ -22,7 +22,6 @@ const MoviesList = () => {
 
     useEffect(() => {
         dispatch(FavMovieOperationsAction.restoreFromLocalStorage());
-        console.log(result);
     }, []);
 
     const handlePagination = (newPage) => {
@@ -31,6 +30,7 @@ const MoviesList = () => {
 
     const handleTogglingFavBtn = (movie) => {
         dispatch(FavMovieOperationsAction.addRemoveToggle(movie));
+
         if (isFavMap[movie.id]) {
             enqueueSnackbar('Remove from Favlist',
                 {
@@ -52,7 +52,7 @@ const MoviesList = () => {
 
     const toMoviesDetail = (movie) => {
         localStorage.setItem("moviesDetail", JSON.stringify(movie));
-        navigate(`/${movie.id}`);
+        navigate(`/${movie.id}`, scrollTo(0, 0));
     };
 
     return (
@@ -63,16 +63,16 @@ const MoviesList = () => {
 
                 <Box sx={{ flexGrow: 1, maxWidth: '1200px' }}>
                     <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}
-                    >
+                        justifyContent="flex-start">
                         {
                             searchResult.length > 0 ?
                                 searchResult.map((movie) => (
-                                    <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
+                                    <Grid2 sx={{}} key={movie.id} xs={12} sm={6} md={2.4}>
                                         <MovieCard title={movie.title}
                                             poster_path={movie.poster_path}
-                                            addToFav={() => handleAddToFav(movie)}
+                                            addToggle={() => handleTogglingFavBtn(movie)}
                                             handleNavigate={() => toMoviesDetail(movie)}
-                                            isFav={movie.isFav}
+                                            isFav={isFavMap[movie.id]}
                                         ></MovieCard>
                                     </Grid2>
                                 )) :

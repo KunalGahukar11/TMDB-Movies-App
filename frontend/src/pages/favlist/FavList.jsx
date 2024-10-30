@@ -31,12 +31,11 @@ const FavList = () => {
 
     const handleRemove = (movie) => {
         dispatch(FavMovieOperationsAction.removeFromFav(movie));
-        console.log(result);
     };
 
     const toMoviesDetail = (movie) => {
         localStorage.setItem("moviesDetail", JSON.stringify(movie));
-        navigate(`/${movie.id}`);
+        navigate(`/${movie.id}`, scrollTo(0, 0));
     };
 
     return (
