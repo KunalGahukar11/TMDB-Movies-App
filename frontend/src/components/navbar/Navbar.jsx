@@ -67,7 +67,7 @@ const Navbar = () => {
                                                 }
                                             }}
                                         >
-                                            <li className="m-3 list-none text-lg font-medium cursor-pointer md:text-md"
+                                            <li className="m-3 list-none text-lg font-medium cursor-pointer"
                                                 style={{ color: '#ede8f5' }}
                                             >
                                                 <NavLink to={item.path}
@@ -77,7 +77,7 @@ const Navbar = () => {
                                                     }}>{item.menu}</NavLink>
                                             </li>
                                         </Badge> :
-                                        <li key={idx} className="m-3 list-none text-lg font-medium cursor-pointer md:text-sm"
+                                        <li key={idx} className="m-3 list-none text-lg font-medium cursor-pointer"
                                             style={{ color: '#ede8f5' }}
                                         >
                                             <NavLink to={item.path}
@@ -106,7 +106,7 @@ const Navbar = () => {
 
             {
                 isOpen && (
-                    <aside className="flex justify-center p-3 m-1 w-5/12 absolute rounded-lg border border-gray-300 right-0 z-10 shadow-effect"
+                    <aside className="flex justify-center p-3 m-1 w-5/12 absolute rounded-lg border border-gray-300 right-0 z-20 shadow-effect"
                         style={{ backgroundColor: '#edf1ff' }}>
                         <ul className="flex flex-col gap-4">
                             {

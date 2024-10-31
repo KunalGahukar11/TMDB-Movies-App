@@ -40,22 +40,55 @@ const FavList = () => {
     return (
         <>
             <section className='flex flex-col justify-center my-4'>
-                <h2 className='text-3xl font-semibold border-l-4 my-6 p-3 w-full' style={{
+                <h2 className='text-2xl p-2 md:text-3xl font-semibold border-l-4 md:p-3 my-6 self-start w-full' style={{
                     background: '#ede8f5', borderLeftColor: '#3d52a0'
                 }}>Favourite Movies</h2>
 
-                <Box sx={{ flexGrow: 1, margin: '0 auto', Width: '100%' }}>
-                    <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Box sx={{
+                    flexGrow: 1, maxWidth: '1200px', margin: '0px auto'
+                }}>
+                    <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 2, md: 5, lg: 12 }}
+                        sx={{
+                            justifyContent: 'center',
+                            "@media (min-width:1281px)": {
+                                justifyContent: 'flex-start'
+                            },
+                        }}>
                         {
                             favMovieData && !!favMovieData.length && favMovieData.map((movie) => (
                                 <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
-                                    <Card sx={{ maxWidth: 180, minHeight: 300, cursor: 'pointer' }}>
-                                        <CardContent sx={{ height: 'auto', padding: '5px', background: '#eee' }}>
+                                    <Card sx={{
+                                        maxWidth: 180, minHeight: 300, cursor: 'pointer',
+                                        "@media (max-width:640px)": {
+                                            maxWidth: '150px',
+                                            borderTopLeftRadius: '10px',
+                                            borderTopRightRadius: '10px',
+                                            minHeight: '0px',
+                                        },
+                                        "@media (min-width:640px) and (max-width:768px)": {
+                                            maxWidth: '160px',
+                                            borderTopLeftRadius: '10px',
+                                            borderTopRightRadius: '10px',
+                                            minHeight: '0px',
+                                        },
+                                        "@media (min-width:768px) and (max-width:1024px)": {
+                                            maxWidth: '160px',
+                                        }
+                                    }}>
+                                        <CardContent sx={{
+                                            height: 'auto', padding: '5px', background: '#eee',
+                                            "@media (max-width:640px)": {
+                                                display: 'none',
+                                            },
+                                            "@media (max-width:768px)": {
+                                                display: 'none',
+                                            },
+                                        }}>
                                             <Typography gutterBottom component="div" sx={{ fontWeight: 600, textAlign: 'center', padding: '4px', margin: 0, fontFamily: 'poppins' }}>
                                                 {
-                                                    movie.title.length >= 20 ?
-                                                        `${movie.title.substring(0, 15)}...` :
-                                                        movie.title
+                                                    movie.title.length >= 15
+                                                        ? `${movie.title.substring(0, 10)}...`
+                                                        : movie.title
                                                 }
                                             </Typography>
                                         </CardContent>

@@ -11,7 +11,7 @@ const Footer = () => {
         <>
             <footer className='flex flex-col mt-20 items-center text-neutral-400' style={{ background: 'linear-gradient(to top, #000000 , #2a2c2d)' }}>
                 <div className='w-full p-2'>
-                    <ul className='w-4/5 mx-auto p-5 flex justify-evenly'>
+                    <ul className='w-4/5 mx-auto p-5 flex flex-col sm:flex-col items-center gap-3 md:flex-row justify-center md:gap-10 lg:gap-14'>
                         <li className='font-semibold cursor-pointer'>ABOUT US</li>
                         <li className='font-semibold cursor-pointer'>MOVIES</li>
                         <li className='font-semibold cursor-pointer'>AWARDS</li>
@@ -20,12 +20,12 @@ const Footer = () => {
                     </ul>
                 </div>
                 <hr className='border-t-2 border-neutral-500 w-11/12' />
-                <div className='w-4/5 text-center my-4 p-3'>
+                <div className='w-4/5 text-center my-4 p-3 hidden md:flex'>
                     <p className='font-normal'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis odio eligendi earum accusantium cum eos delectus sint temporibus iusto? Ratione veritatis exercitationem suscipit laborum quod, unde odio culpa dolorem quibusdam.</p>
                 </div>
-                <div className='flex flex-col items-center w-full my-4'>
+                <div className='flex flex-col items-center w-full my-4 gap-1'>
                     <p className='font-semibold'>Follow us on</p>
-                    <ul className='flex w-1/4 justify-evenly mt-2'>
+                    <ul className='flex w-2/4 gap-2 md:w-1/4 justify-evenly mt-2'>
                         <li className='cursor-pointer'><FacebookIcon></FacebookIcon></li>
                         <li className='cursor-pointer'><InstagramIcon></InstagramIcon></li>
                         <li className='cursor-pointer'><TwitterIcon></TwitterIcon></li>

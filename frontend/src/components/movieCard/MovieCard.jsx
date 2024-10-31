@@ -41,11 +41,9 @@ const MovieCard = (props) => {
                 }}>
                     <Typography gutterBottom component="div" sx={{ fontWeight: 600, textAlign: 'center', padding: '4px', margin: 0, fontFamily: 'poppins' }}>
                         {
-                            window.innerWidth >= 1280 && props.title.length >= 20
-                                ? `${props.title.substring(0, 15)}...`
-                                : window.innerWidth > 768 && props.title.length >= 15
-                                    ? `${props.title.substring(0, 10)}...`
-                                    : props.title
+                            props.title.length >= 15
+                                ? `${props.title.substring(0, 10)}...`
+                                : props.title
                         }
                     </Typography>
                 </CardContent>

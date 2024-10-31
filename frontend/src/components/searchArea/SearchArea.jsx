@@ -20,7 +20,7 @@ const SearchArea = () => {
             <section className='h-64 flex flex-col justify-center mt-4' style={{
                 background: 'linear-gradient(to right, #adbbda, #ede8f5)'
             }}>
-                <h2 className='text-2xl p-4 md:text-3xl font-medium text-center' style={{
+                <h2 className='text-xl p-4 md:text-2xl lg:text-3xl font-medium text-center' style={{
                     color: '#3d52a0'
                 }}>Lots of Movies, TV Shows to watch.Explore now.</h2>
                 <div className='mt-6'>
