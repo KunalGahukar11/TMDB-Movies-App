@@ -48,6 +48,8 @@ const MoviesList = () => {
                     }
                 });
         }
+        console.log(isFavMap);
+
     };
 
     const toMoviesDetail = (movie) => {
@@ -58,16 +60,22 @@ const MoviesList = () => {
     return (
         <>
             <section className='flex flex-col items-center justify-center my-4'>
-                <h1 className='text-3xl font-semibold border-l-4 p-3 my-6 self-start w-full'
+                <h1 className='text-2xl p-2 md:text-3xl font-semibold border-l-4 md:p-3 my-6 self-start w-full'
                     style={{ borderLeftColor: '#3d52a0', background: '#ede8f5' }}>All Movies</h1>
 
-                <Box sx={{ flexGrow: 1, maxWidth: '1200px' }}>
-                    <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}
-                        justifyContent="flex-start">
+                <Box sx={{ flexGrow: 1, maxWidth: '1200px', }}>
+                    <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 2, md: 5, lg: 12 }}
+                        sx={{
+                            justifyContent: 'center',
+
+                            "@media (min-width:1281px)": {
+                                justifyContent: 'flex-start'
+                            },
+                        }}>
                         {
                             searchResult.length > 0 ?
                                 searchResult.map((movie) => (
-                                    <Grid2 sx={{}} key={movie.id} xs={12} sm={6} md={2.4}>
+                                    <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
                                         <MovieCard title={movie.title}
                                             poster_path={movie.poster_path}
                                             addToggle={() => handleTogglingFavBtn(movie)}
@@ -78,7 +86,8 @@ const MoviesList = () => {
                                 )) :
                                 result.length > 0 ?
                                     result.map((movie) => (
-                                        <Grid2 key={movie.id} xs={12} sm={6} md={2.4}>
+                                        <Grid2
+                                            key={movie.id} >
                                             <MovieCard title={movie.title}
                                                 poster_path={movie.poster_path}
                                                 addToggle={() => handleTogglingFavBtn(movie)}
@@ -91,11 +100,29 @@ const MoviesList = () => {
                         }
                     </Grid2>
                 </Box>
+
                 <Pagination className='mt-10' shape='rounded'
                     color="primary"
                     count={totalPages}
                     page={page}
                     onChange={(_, value) => { handlePagination(value), scrollTo(0, 0) }}
+                    sx={{
+                        '@media (max-width:640px)': {
+                            '& .MuiPagination-ul': {
+                                flexWrap: 'nowrap', // Prevents wrapping on smaller screens
+                            },
+                            '& .MuiPaginationItem-root': {
+                                minWidth: '28px', // Reduces button width
+                                padding: '4px', // Reduces button padding
+                            },
+                        },
+                        '@media (min-width:640px)': {
+                            '& .MuiPaginationItem-root': {
+                                minWidth: '35px', // Reduces button width
+                                padding: '6px', // Reduces button padding
+                            },
+                        },
+                    }}
                 />
             </section>
         </>

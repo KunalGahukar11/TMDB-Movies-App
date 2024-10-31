@@ -12,13 +12,40 @@ const MovieCard = (props) => {
 
     return (
         <>
-            <Card sx={{ maxWidth: 180, minHeight: 300, cursor: 'pointer' }}>
-                <CardContent sx={{ height: 'auto', padding: '5px', background: '#eee' }}>
+            <Card sx={{
+                maxWidth: 180, minHeight: 300, cursor: 'pointer',
+                "@media (max-width:640px)": {
+                    maxWidth: '150px',
+                    borderTopLeftRadius: '10px',
+                    borderTopRightRadius: '10px',
+                    minHeight: '0px',
+                },
+                "@media (min-width:640px) and (max-width:768px)": {
+                    maxWidth: '160px',
+                    borderTopLeftRadius: '10px',
+                    borderTopRightRadius: '10px',
+                    minHeight: '0px',
+                },
+                "@media (min-width:768px) and (max-width:1024px)": {
+                    maxWidth: '160px',
+                }
+            }}>
+                <CardContent sx={{
+                    height: 'auto', padding: '5px', background: '#eee',
+                    "@media (max-width:640px)": {
+                        display: 'none',
+                    },
+                    "@media (max-width:768px)": {
+                        display: 'none',
+                    },
+                }}>
                     <Typography gutterBottom component="div" sx={{ fontWeight: 600, textAlign: 'center', padding: '4px', margin: 0, fontFamily: 'poppins' }}>
                         {
-                            props.title.length >= 20 ?
-                                `${props.title.substring(0, 15)}...` :
-                                props.title
+                            window.innerWidth >= 1280 && props.title.length >= 20
+                                ? `${props.title.substring(0, 15)}...`
+                                : window.innerWidth > 768 && props.title.length >= 15
+                                    ? `${props.title.substring(0, 10)}...`
+                                    : props.title
                         }
                     </Typography>
                 </CardContent>

@@ -50,7 +50,7 @@ const Navbar = () => {
                 </div>
 
                 {/* navbar right */}
-                <nav className="hidden md:w-3/4 md:block lg:w-3/5">
+                <nav className="hidden sm:hidden md:hidden md:w-3/4 lg:block lg:w-3/5">
                     <ul className="flex justify-start items-center lg:justify-end mr-3">
                         {
                             links && links.map((item, idx) => {
@@ -67,7 +67,7 @@ const Navbar = () => {
                                                 }
                                             }}
                                         >
-                                            <li className="m-3 list-none text-lg font-medium cursor-pointer "
+                                            <li className="m-3 list-none text-lg font-medium cursor-pointer md:text-md"
                                                 style={{ color: '#ede8f5' }}
                                             >
                                                 <NavLink to={item.path}
@@ -77,7 +77,7 @@ const Navbar = () => {
                                                     }}>{item.menu}</NavLink>
                                             </li>
                                         </Badge> :
-                                        <li key={idx} className="m-3 list-none text-lg font-medium cursor-pointer "
+                                        <li key={idx} className="m-3 list-none text-lg font-medium cursor-pointer md:text-sm"
                                             style={{ color: '#ede8f5' }}
                                         >
                                             <NavLink to={item.path}
@@ -92,7 +92,7 @@ const Navbar = () => {
                     </ul>
                 </nav>
 
-                <div className="mr-5 flex md:hidden">
+                <div className="mr-5 lg:hidden">
                     <MenuIcon onClick={() => handleMenu()}
                         sx={{
                             color: '#ede8f5',
@@ -106,7 +106,7 @@ const Navbar = () => {
 
             {
                 isOpen && (
-                    <aside className="flex justify-center p-3 m-1 w-5/12 absolute rounded-lg border border-gray-300 right-0 z-10 md:hidden shadow-effect"
+                    <aside className="flex justify-center p-3 m-1 w-5/12 absolute rounded-lg border border-gray-300 right-0 z-10 shadow-effect"
                         style={{ backgroundColor: '#edf1ff' }}>
                         <ul className="flex flex-col gap-4">
                             {

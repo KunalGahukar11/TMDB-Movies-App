@@ -15,7 +15,6 @@ import useMovies from '../../hooks/useMovies'
 
 const FavList = () => {
     const dispatch = useDispatch();
-    const { result } = useMovies();
     const [favMovieData, setFavMovieData] = useState([]);
     const favMovies = useSelector((store) => store.FavMoviesOperations.favMovies);
     const navigate = useNavigate();
