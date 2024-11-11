@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FavMovieOperationsAction } from '../../redux/slices/FavMoviesOpsSlice';
 import { useNavigate } from 'react-router-dom';
 import useMovies from '../../hooks/useMovies'
+import ComponentHeading from '../../components/componentHeading/ComponentHeading';
 
 const FavList = () => {
     const dispatch = useDispatch();
@@ -40,9 +41,7 @@ const FavList = () => {
     return (
         <>
             <section className='flex flex-col justify-center my-4'>
-                <h2 className='text-2xl p-2 md:text-3xl font-semibold border-l-4 md:p-3 my-6 self-start w-full' style={{
-                    background: '#ede8f5', borderLeftColor: '#3d52a0'
-                }}>Favourite Movies</h2>
+                <ComponentHeading title={'Favourite Movies'}></ComponentHeading>
 
                 <Box sx={{
                     flexGrow: 1, maxWidth: '1200px', margin: '0px auto'

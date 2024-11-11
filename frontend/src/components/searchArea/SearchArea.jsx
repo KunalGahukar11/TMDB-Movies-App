@@ -17,7 +17,7 @@ const SearchArea = () => {
 
     return (
         <>
-            <section className='h-64 flex flex-col justify-center mt-4' style={{
+            <section className='h-64 flex flex-col justify-center md:hidden mt-4' style={{
                 background: 'linear-gradient(to right, #adbbda, #ede8f5)'
             }}>
                 <h2 className='text-xl p-4 md:text-2xl lg:text-3xl font-medium text-center' style={{

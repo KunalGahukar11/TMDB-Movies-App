@@ -16,7 +16,9 @@ const FavMovieOperationsSlice = createSlice({
 
                 if (idx !== -1) {
                     state.favMovies.splice(idx, 1);
+                    // let updatedList = JSON.parse(localStorage.getItem('inFavourite'));
                     delete state.isFavMap[action.payload.id];
+                    localStorage.setItem("inFavourite", JSON.stringify(state.isFavMap));
 
                     state.count = state.favMovies.length;
                     localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
@@ -38,8 +40,8 @@ const FavMovieOperationsSlice = createSlice({
                 state.count = updatedArr.length;
                 state.isFavMap = { ...state.isFavMap, [action.payload.id]: true };
 
+                localStorage.setItem("inFavourite", JSON.stringify(state.isFavMap));
                 localStorage.setItem('favouriteMoviesCount', state.favMovies.length);
-
                 localStorage.setItem("favouriteMovies", JSON.stringify(updatedArr));
             }
         },
@@ -47,9 +49,10 @@ const FavMovieOperationsSlice = createSlice({
         restoreFromLocalStorage: (state) => {
             let data = JSON.parse(localStorage.getItem("favouriteMovies")) || [];
             let countValue = JSON.parse(localStorage.getItem("favouriteMoviesCount")) || 0;
+            let favList = JSON.parse(localStorage.getItem("inFavourite")) || {};
 
             state.favMovies = [...data];
-
+            state.isFavMap = { ...favList };
             state.count = countValue;
         },
 
@@ -59,6 +62,7 @@ const FavMovieOperationsSlice = createSlice({
             if (idx !== -1) {
                 state.favMovies.splice(idx, 1);
                 delete state.isFavMap[action.payload.id];
+                localStorage.setItem("inFavourite", JSON.stringify(state.isFavMap));
 
                 state.count = state.favMovies.length;
                 localStorage.setItem('favouriteMoviesCount', state.favMovies.length);

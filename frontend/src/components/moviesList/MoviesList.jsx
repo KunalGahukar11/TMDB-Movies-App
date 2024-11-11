@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 import useSearchMovies from '../../hooks/useSearchMovies';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import SearchBoxAndFilter from '../SearchBoxAndFilter/SearchBoxAndFilter';
+import ComponentHeading from '../componentHeading/ComponentHeading';
 
 const MoviesList = () => {
     const { result, totalPages } = useMovies();
@@ -49,7 +51,6 @@ const MoviesList = () => {
                 });
         }
         console.log(isFavMap);
-
     };
 
     const toMoviesDetail = (movie) => {
@@ -60,8 +61,8 @@ const MoviesList = () => {
     return (
         <>
             <section className='flex flex-col items-center justify-center my-4'>
-                <h1 className='text-2xl p-2 md:text-3xl font-semibold border-l-4 md:p-3 my-6 self-start w-full'
-                    style={{ borderLeftColor: '#3d52a0', background: '#ede8f5' }}>All Movies</h1>
+                <ComponentHeading title={'All Movies'}></ComponentHeading>
+                <SearchBoxAndFilter></SearchBoxAndFilter>
 
                 <Box sx={{ flexGrow: 1, maxWidth: '1200px', }}>
                     <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 2, md: 5, lg: 12 }}

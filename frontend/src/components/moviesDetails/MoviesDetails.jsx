@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import './MoviesDetails.css';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
@@ -8,9 +8,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from "react-redux";
 import { FavMovieOperationsAction } from "../../redux/slices/FavMoviesOpsSlice";
 import { useSnackbar } from 'notistack';
+import useGenre from "../../hooks/useGenre";
+import Reviews from "../reviews/Reviews";
+import useMovieReviews from "../../hooks/useMovieReviews";
+import ComponentHeading from '../componentHeading/ComponentHeading';
 
 const MoviesDetails = () => {
     const [movieData, setMovieData] = useState(null);
+    const { genreIds } = useGenre();
+    const { movieReviews } = useMovieReviews();
     const isFavMap = useSelector((store) => store.FavMoviesOperations.isFavMap);
     const { enqueueSnackbar } = useSnackbar();
 
@@ -20,6 +26,18 @@ const MoviesDetails = () => {
         let data = JSON.parse(localStorage.getItem("moviesDetail"));
         setMovieData(data);
     }, []);
+
+    const getMovieGenre = useMemo(() => {
+        if (!movieData) return [];
+
+        return movieData.genre_ids.map((id) => {
+            let matchedId = genreIds.find((genre) => {
+                return genre.id === id;
+            });
+            return matchedId ? matchedId.name : null;
+        });
+    }, [movieData]);
+
 
     const handleToggling = (movie) => {
         dispatch(FavMovieOperationsAction.addRemoveToggle(movie));
@@ -54,13 +72,13 @@ const MoviesDetails = () => {
                             {/* movie detail left */}
 
                             <div className="w-1/4 flex flex-col items-center h-full justify-center gap-4">
-                                <img className="rounded-lg w-3/4 shadow_effect"
+                                <img className="rounded-lg w-2/3 shadow_effect"
                                     src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`} alt={movieData.title} />
 
                                 <div className="flex flex-col gap-2 items-center md:text-sm lg:text-lg">
-                                    <p className="italic">{movieData.title}</p>
-                                    <p className="italic">Popularity : <span className="font-bold text-gray-300">{movieData.popularity}</span></p>
-                                    <p className="italic">Voting: <span className="font-bold text-gray-300">{movieData.vote_count}</span></p>
+                                    <p className="italic text-center font-bold">{movieData.title}</p>
+                                    <p className="italic font-light">Popularity : <span className="font-semibold text-gray-300">{movieData.popularity}</span></p>
+                                    <p className="italic font-light">Voting: <span className="font-semibold text-gray-300">{movieData.vote_count}</span></p>
                                 </div>
                             </div>
 
@@ -77,9 +95,25 @@ const MoviesDetails = () => {
                                 <div className="border-l-4 border-gray-100 md:p-2 lg:p-3 flex flex-col gap-1">
                                     <h1 className="lg:text-3xl font-bold">{movieData.original_title} ({(movieData.release_date).split("-")[0]})
                                     </h1>
-                                    <p className="italic text-sm text-gray-300">{movieData.release_date} | {movieData.original_language}
-                                        {movieData.adult && (<span>| A rated</span>)}
-                                    </p>
+
+                                    <div className="flex gap-1">
+                                        <p className="italic text-sm text-gray-300">{movieData.release_date}</p>
+                                        <p className="italic text-sm text-gray-300">| {movieData.original_language}</p>
+                                        <p className="italic text-sm text-gray-300">{movieData.adult && (<span>| A rated</span>)}</p>
+                                        <ul className="flex gap-1">
+                                            {
+                                                getMovieGenre && getMovieGenre.map((genre, index) => {
+                                                    return (
+                                                        <li className="italic text-sm text-gray-300 list-none" key={index}>
+                                                            {index === 0 ? '| ' : ''}
+                                                            {index === getMovieGenre.length - 1 ? `${genre}` : `${genre},`}
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
+
                                     <div className=" w-full flex items-center gap-2">
                                         <p className="italic text-sm text-gray-300">Rating :</p>
                                         <Stack spacing={1}>
@@ -167,6 +201,17 @@ const MoviesDetails = () => {
                         </div>
                     </section>
                 )
+            }
+            <Divider></Divider>
+            <ComponentHeading title={'Reviews'}></ComponentHeading>
+            {
+                movieReviews && movieReviews.slice(0, 5).map((review, index) => {
+                    return <Reviews key={index}
+                        author={review.author}
+                        date={review.created_at}
+                        desc={review.content}>
+                    </Reviews>
+                })
             }
         </>
     )
