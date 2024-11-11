@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import useSearchMovies from '../../hooks/useSearchMovies';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import SearchBoxAndFilter from '../SearchBoxAndFilter/SearchBoxAndFilter';
+import SearchBoxAndFilter from '../searchBoxAndFilter/SearchBoxAndFilter';
 import ComponentHeading from '../componentHeading/ComponentHeading';
 
 const MoviesList = () => {
