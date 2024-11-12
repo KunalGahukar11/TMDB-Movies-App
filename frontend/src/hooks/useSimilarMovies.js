@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { movieInstance } from "../api/apiAuthentication";
 import { useParams } from "react-router-dom";
 
-const useMovieReviews = () => {
-  const [movieReviews, setMovieReviews] = useState([]);
+const useSimilarMovies = () => {
+  const [similarMovies, setSimilarMovies] = useState([]);
   const { movieId } = useParams();
 
   const getSimilarMovies = async () => {
     try {
-      let result = await movieInstance.get(`/movie/${movieId}/reviews`);
-      setMovieReviews(result.data.results);
-      console.log(result.data.results);
+      let data = await movieInstance.get(`/movie/${movieId}/similar`);
+      setSimilarMovies(data.data.results);
+      console.log(data.data.results);
     } catch (error) {
       console.log(error);
     }
@@ -21,8 +21,8 @@ const useMovieReviews = () => {
   }, []);
 
   return {
-    movieReviews,
+    similarMovies,
   };
 };
 
-export default useMovieReviews;
+export default useSimilarMovies;

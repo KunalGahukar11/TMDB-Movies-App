@@ -12,6 +12,7 @@ import useGenre from "../../hooks/useGenre";
 import Reviews from "../reviews/Reviews";
 import useMovieReviews from "../../hooks/useMovieReviews";
 import ComponentHeading from '../componentHeading/ComponentHeading';
+import RelatedMovies from "../relatedMovies/RelatedMovies";
 
 const MoviesDetails = () => {
     const [movieData, setMovieData] = useState(null);
@@ -209,10 +210,14 @@ const MoviesDetails = () => {
                     return <Reviews key={index}
                         author={review.author}
                         date={review.created_at}
-                        desc={review.content}>
+                        desc={review.content}
+                        rating={review.author_details.rating}>
                     </Reviews>
                 })
             }
+            <Divider></Divider>
+            <ComponentHeading title={'Related Movies'}></ComponentHeading>
+            <RelatedMovies></RelatedMovies>
         </>
     )
 };
