@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { indigo, grey } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CardMedia from '@mui/material/CardMedia';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,7 +14,7 @@ const MovieCard = (props) => {
     return (
         <>
             <Card sx={{
-                maxWidth: 180, minHeight: 300, cursor: 'pointer',
+                maxWidth: 180, minHeight: 300, cursor: 'pointer', bgcolor: indigo[50],
                 "@media (max-width:640px)": {
                     maxWidth: '150px',
                     borderTopLeftRadius: '10px',
@@ -32,7 +32,7 @@ const MovieCard = (props) => {
                 }
             }}>
                 <CardContent sx={{
-                    height: 'auto', padding: '5px', background: '#eee',
+                    height: 'auto', padding: '5px',
                     "@media (max-width:640px)": {
                         display: 'none',
                     },
@@ -56,17 +56,22 @@ const MovieCard = (props) => {
                     alt={props.title}
                 />
 
-                <CardActions disableSpacing sx={{ background: '#eee', justifyContent: 'space-around' }}>
-                    <IconButton aria-label="add to favorites" sx={{ padding: 0 }}
-                        onClick={() => props.addToggle()}>
-                        <FavoriteIcon sx={{
-                            color: props.isFav ? '#FF0000' : 'grey',
+                <CardActions disableSpacing sx={{ background: '#eee', justifyContent: 'space-around', padding: '10px 2px', bgcolor: indigo[50], }}>
+                    <Button variant='contained' size="small" aria-label="add to favorites" sx={{
+                        fontSize: '12px', padding: '6px', fontFamily: 'poppins', lineHeight: '0px',
+                        '& .MuiButton-startIcon': { marginRight: '4px' }, borderRadius: '20px', bgcolor: indigo[400]
+                    }}
+                        onClick={() => props.addToggle()}
+                        startIcon={<FavoriteIcon sx={{
+                            color: props.isFav ? '#FF0000' : '#FFF',
                             transition: 'color 0.3s ease-in-out', // optional smooth transition
-                        }} />
-                    </IconButton>
-                    <Button size="small" sx={{
-                        fontSize: '13px', padding: '4px', fontFamily: 'poppins'
-                    }} startIcon={<AddIcon sx={{ marginRight: '0px' }}></AddIcon>}>Watchlist</Button>
+                        }} />}>
+                        Fav
+                    </Button>
+                    <Button variant='contained' size="small" sx={{
+                        fontSize: '12px', padding: '6px', fontFamily: 'poppins', lineHeight: '0px',
+                        '& .MuiButton-startIcon': { marginRight: '2px' }, borderRadius: '20px', bgcolor: grey[800]
+                    }} startIcon={<AddIcon></AddIcon>}>Watchlist</Button>
                 </CardActions>
             </Card>
         </>
