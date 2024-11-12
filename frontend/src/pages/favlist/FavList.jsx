@@ -1,5 +1,5 @@
 import { Grid2 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -29,9 +29,9 @@ const FavList = () => {
 
     }, [favMovies]);
 
-    const handleRemove = (movie) => {
+    const handleRemove = useCallback((movie) => {
         dispatch(FavMovieOperationsAction.removeFromFav(movie));
-    };
+    });
 
     const toMoviesDetail = (movie) => {
         localStorage.setItem("moviesDetail", JSON.stringify(movie));

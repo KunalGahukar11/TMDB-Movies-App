@@ -3,19 +3,30 @@ import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import { indigo, grey } from '@mui/material/colors';
+import Rating from '@mui/material/Rating';
 
-const Reviews = (props) => {
+const Reviews = React.memo((props) => {
     return (
         <>
             <section className='my-3'>
-                <Card variant="outlined">
+                <Card variant="outlined" sx={{ bgcolor: grey[100] }}>
                     <Box sx={{ p: 2 }}>
                         <Stack
                             direction="row"
                             sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {props.author}
-                            </Typography>
+                            <Stack direction="row"
+                                sx={{ marginBottom: '10px', gap: '10px', alignItems: 'center' }}>
+                                <Avatar sx={{ bgcolor: indigo[400] }}>{props.author.substring(0, 2).toUpperCase()}</Avatar>
+                                <Stack>
+                                    <Typography gutterBottom variant="h5" component="div"
+                                        sx={{ marginBottom: '0px', fontSize: '1.2rem' }}>
+                                        {props.author}
+                                    </Typography>
+                                    <Rating name="half-rating-read" defaultValue={props.rating} precision={0.5} readOnly max={10} sx={{ fontSize: '1rem' }} />
+                                </Stack>
+                            </Stack>
                             <Typography gutterBottom variant="h6" component="div">
                                 {props.date.slice(0, 10)}
                             </Typography>
@@ -37,6 +48,6 @@ const Reviews = (props) => {
             </section>
         </>
     )
-}
+})
 
 export default Reviews

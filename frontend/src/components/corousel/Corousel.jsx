@@ -24,6 +24,8 @@ const Corousel = () => {
     }, [upcomingMov]);
 
     useEffect(() => {
+        if (backdropArr.length === 0) return;
+
         let timerId = setInterval(() => {
             dispatch(CorouselSlceAction.addCorouselEffect(backdropArr));
         }, 7000);
@@ -31,7 +33,7 @@ const Corousel = () => {
         return () => {
             clearInterval(timerId);
         }
-    }, [currIdx]);
+    }, [backdropArr]);
 
     return (
         <>
@@ -52,7 +54,18 @@ const Corousel = () => {
                                         </span>
                                     </p>
                                 </div>
-                                <img className='carousel-image' src={`https://image.tmdb.org/t/p/w1280/${backdropArr[currIdx].backdrop_path}`} alt={backdropArr[currIdx].title} />
+                                <img
+                                    className='carousel-image'
+                                    loading='lazy'
+                                    src={`https://image.tmdb.org/t/p/w1280/${backdropArr[currIdx].backdrop_path}`}
+                                    srcSet={`
+                                        https://image.tmdb.org/t/p/w500/${backdropArr[currIdx].backdrop_path} 500w,
+                                        https://image.tmdb.org/t/p/w780/${backdropArr[currIdx].backdrop_path} 780w,
+                                        https://image.tmdb.org/t/p/w1280/${backdropArr[currIdx].backdrop_path} 1280w
+                                    `}
+                                    sizes="(max-width: 768px) 500px, (max-width: 1024px) 780px, 1280px"
+                                    alt={backdropArr[currIdx].title}
+                                />
 
                             </>
                         )

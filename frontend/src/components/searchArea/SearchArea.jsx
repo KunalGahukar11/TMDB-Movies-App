@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -7,13 +7,16 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SearchAreaAction } from '../../redux/slices/SearchAreaSlice';
+import { debounce } from '../../utils/debouncing';
 
 const SearchArea = () => {
     const dispatch = useDispatch();
 
-    const getMovieName = (event) => {
-        dispatch(SearchAreaAction.searchMovie(event.target.value));
-    };
+    const getMovieName = useCallback(
+        debounce((event) => {
+            dispatch(SearchAreaAction.searchMovie(event.target.value));
+        }, 600), [dispatch]
+    );
 
     return (
         <>
