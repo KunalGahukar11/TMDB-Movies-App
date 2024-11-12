@@ -13,6 +13,7 @@ import Reviews from "../reviews/Reviews";
 import useMovieReviews from "../../hooks/useMovieReviews";
 import ComponentHeading from '../componentHeading/ComponentHeading';
 import RelatedMovies from "../relatedMovies/RelatedMovies";
+import { useParams } from "react-router-dom";
 
 const MoviesDetails = () => {
     const [movieData, setMovieData] = useState(null);
@@ -20,13 +21,14 @@ const MoviesDetails = () => {
     const { movieReviews } = useMovieReviews();
     const isFavMap = useSelector((store) => store.FavMoviesOperations.isFavMap);
     const { enqueueSnackbar } = useSnackbar();
+    const { movieId } = useParams();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem("moviesDetail"));
         setMovieData(data);
-    }, []);
+    }, [movieId]);
 
     const getMovieGenre = useMemo(() => {
         if (!movieData) return [];
@@ -37,7 +39,7 @@ const MoviesDetails = () => {
             });
             return matchedId ? matchedId.name : null;
         });
-    }, [movieData]);
+    }, [movieData, genreIds]);
 
 
     const handleToggling = (movie) => {
@@ -73,7 +75,7 @@ const MoviesDetails = () => {
                             {/* movie detail left */}
 
                             <div className="w-1/4 flex flex-col items-center h-full justify-center gap-4">
-                                <img className="rounded-lg w-2/3 shadow_effect"
+                                <img loading="lazy" className="rounded-lg w-2/3 shadow_effect"
                                     src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`} alt={movieData.title} />
 
                                 <div className="flex flex-col gap-2 items-center md:text-sm lg:text-lg">
@@ -152,7 +154,7 @@ const MoviesDetails = () => {
                         </div>
 
                         <div className="relative border-2 border-white hidden md:block">
-                            <img className=" object-cover opacity-45"
+                            <img loading="lazy" className=" object-cover opacity-45"
                                 src={`https://image.tmdb.org/t/p/w1280/${movieData.backdrop_path}`} alt={movieData.title} />
                             <div id="overlay"></div>
                         </div>
@@ -206,14 +208,14 @@ const MoviesDetails = () => {
             <Divider></Divider>
             <ComponentHeading title={'Reviews'}></ComponentHeading>
             {
-                movieReviews && movieReviews.slice(0, 5).map((review, index) => {
+                movieReviews.length > 0 ? movieReviews.slice(0, 5).map((review, index) => {
                     return <Reviews key={index}
                         author={review.author}
                         date={review.created_at}
                         desc={review.content}
                         rating={review.author_details.rating}>
                     </Reviews>
-                })
+                }) : <p>No reviews yet</p>
             }
             <Divider></Divider>
             <ComponentHeading title={'Related Movies'}></ComponentHeading>

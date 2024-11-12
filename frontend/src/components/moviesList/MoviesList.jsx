@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaginationAction } from '../../redux/slices/PaginationSlice';
 import { FavMovieOperationsAction } from '../../redux/slices/FavMoviesOpsSlice';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useSearchMovies from '../../hooks/useSearchMovies';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
@@ -30,7 +30,7 @@ const MoviesList = () => {
         dispatch(PaginationAction.setPage(newPage));
     };
 
-    const handleTogglingFavBtn = (movie) => {
+    const handleTogglingFavBtn = useCallback((movie) => {
         dispatch(FavMovieOperationsAction.addRemoveToggle(movie));
 
         if (isFavMap[movie.id]) {
@@ -50,8 +50,7 @@ const MoviesList = () => {
                     }
                 });
         }
-        console.log(isFavMap);
-    };
+    });
 
     const toMoviesDetail = (movie) => {
         localStorage.setItem("moviesDetail", JSON.stringify(movie));

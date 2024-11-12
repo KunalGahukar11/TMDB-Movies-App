@@ -18,7 +18,7 @@ const useMovieReviews = () => {
 
   useEffect(() => {
     getSimilarMovies();
-  }, []);
+  }, [movieId]);
 
   return {
     movieReviews,

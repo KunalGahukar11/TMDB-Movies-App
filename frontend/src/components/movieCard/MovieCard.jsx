@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CardMedia from '@mui/material/CardMedia';
+import AddIcon from '@mui/icons-material/Add';
 
 const MovieCard = (props) => {
 
@@ -50,6 +51,7 @@ const MovieCard = (props) => {
                 <CardMedia onClick={() => props.handleNavigate()}
                     component="img"
                     height="140"
+                    loading='lazy'
                     image={`https://image.tmdb.org/t/p/w500/${props.poster_path}`}
                     alt={props.title}
                 />
@@ -64,7 +66,7 @@ const MovieCard = (props) => {
                     </IconButton>
                     <Button size="small" sx={{
                         fontSize: '13px', padding: '4px', fontFamily: 'poppins'
-                    }}>to Watchlist</Button>
+                    }} startIcon={<AddIcon sx={{ marginRight: '0px' }}></AddIcon>}>Watchlist</Button>
                 </CardActions>
             </Card>
         </>

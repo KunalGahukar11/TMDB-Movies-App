@@ -1,17 +1,20 @@
 import { Box, FormControl, Input, InputLabel, OutlinedInput } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useDispatch } from 'react-redux';
 import { SearchAreaAction } from '../../redux/slices/SearchAreaSlice';
+import { debounce } from '../../utils/debouncing';
 
 const SearchBoxAndFilter = () => {
     const dispatch = useDispatch();
 
-    const getMovieBySearch = (event) => {
-        dispatch(SearchAreaAction.searchMovie(event.target.value));
-    };
+    const getMovieBySearch = useCallback(
+        debounce((event) => {
+            dispatch(SearchAreaAction.searchMovie(event.target.value));
+        }, 600), [dispatch]
+    );
 
     return (
         <div className='mb-6 w-full hidden md:block'>

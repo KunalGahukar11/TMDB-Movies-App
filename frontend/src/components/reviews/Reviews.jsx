@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import { indigo, grey } from '@mui/material/colors';
 import Rating from '@mui/material/Rating';
 
-const Reviews = (props) => {
+const Reviews = React.memo((props) => {
     return (
         <>
             <section className='my-3'>
@@ -48,6 +48,6 @@ const Reviews = (props) => {
             </section>
         </>
     )
-}
+})
 
 export default Reviews
