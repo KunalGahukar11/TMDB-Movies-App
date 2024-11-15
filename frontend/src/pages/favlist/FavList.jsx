@@ -101,7 +101,8 @@ const FavList = () => {
                                         <CardActions disableSpacing sx={{ background: '#eee', justifyContent: 'end' }}>
                                             <Button size="small" variant='contained' color='error' startIcon={<DeleteIcon />}
                                                 sx={{
-                                                    fontSize: '13px', padding: '4px', fontFamily: 'poppins'
+                                                    fontSize: '12px', padding: '6px', fontFamily: 'poppins', lineHeight: '0px',
+                                                    '& .MuiButton-startIcon': { marginRight: '4px' }, borderRadius: '20px'
                                                 }}
                                                 onClick={() => handleRemove(movie)}>remove</Button>
                                         </CardActions>
